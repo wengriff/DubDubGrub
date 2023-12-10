@@ -15,11 +15,12 @@ enum CheckInStatus {
 
 final class LocationDetailViewModel: ObservableObject {
     
-    let columns = [GridItem(.flexible()),
-                   GridItem(.flexible()),
-                   GridItem(.flexible())]
-    
     var location: DDGLocation
+    var selectedProfile: DDGProfile? {
+        didSet {
+            isShowingProfileModal = true
+        }
+    }
     
     @Published var checkedInProfiles: [DDGProfile] = []
     @Published var alertItem: AlertItem?
@@ -27,8 +28,14 @@ final class LocationDetailViewModel: ObservableObject {
     @Published var isCheckedIn = false
     @Published var isLoading = false
     
+    
     init(location: DDGLocation) {
         self.location = location
+    }
+    
+    func determineColumns(for sizeCategory: ContentSizeCategory) -> [GridItem] {
+        let numberOfColumns = sizeCategory >= .accessibilityMedium ? 1 : 3
+        return Array(repeating: GridItem(.flexible()), count: numberOfColumns)
     }
     
     func getDirectionsToLocation() {

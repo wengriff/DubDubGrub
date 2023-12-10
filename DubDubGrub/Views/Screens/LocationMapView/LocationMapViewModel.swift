@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import SwiftUI
 import CloudKit
 
 @MainActor
@@ -49,5 +50,13 @@ final class LocationMapViewModel: ObservableObject {
     
     func toggleDetailView() {
         isShowingDetailView.toggle()
+    }
+    
+    @ViewBuilder func createLocationDetailView(for location: DDGLocation, in sizeCategory: ContentSizeCategory) -> some View {
+        if sizeCategory >= .accessibilityMedium {
+            LocationDetailView(viewModel: LocationDetailViewModel(location: location)).embedInScrollView()
+        } else {
+            LocationDetailView(viewModel: LocationDetailViewModel(location: location))
+        }
     }
 }

@@ -23,6 +23,13 @@ struct ProfileView: View {
                             EditImage()
                         }
                         .padding(.leading, 12)
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityLabel(Text("Profile Photo"))
+                        .accessibilityHint(Text("Opens the iPhone's photo picker"))
+                        .onTapGesture {
+                            viewModel.isShowingPhotoPicker = true
+                        }
                         
                         VStack(spacing: 1) {
                             TextField("First Name", text: $viewModel.firstName)
@@ -38,14 +45,12 @@ struct ProfileView: View {
                         .padding(.trailing, 16)
                     }
                     .padding()
-                    .onTapGesture {
-                        viewModel.isShowingPhotoPicker = true
-                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         CharactersRemainView(currentCount: viewModel.bio.count)
+                            .accessibilityAddTraits(.isHeader)
                         Spacer()
                         if viewModel.isCheckedIn {
                             Button {
@@ -60,12 +65,15 @@ struct ProfileView: View {
                                     .background(Color.grubRed)
                                     .cornerRadius(8)
                             }
+                            .accessibilityLabel(Text("Check out of current location."))
                         }
                     }
                     TextEditor(text: $viewModel.bio)
                         .frame(height: 100)
                         .overlay(RoundedRectangle(cornerRadius: 8)
                                     .stroke(Color.secondary, lineWidth: 1))
+                        .accessibilityLabel(Text("Bio, \(viewModel.bio)"))
+                        .accessibilityHint(Text("This textfield has a 100 characters maximum."))
                 }
                 .padding(.horizontal, 20)
                 Spacer()
