@@ -31,6 +31,7 @@
 		C965853A2AC382F60088976E /* CustomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96585392AC382F60088976E /* CustomModifiers.swift */; };
 		C965853C2AC383330088976E /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965853B2AC383330088976E /* View+Ext.swift */; };
 		C965853E2AC384250088976E /* DDGButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C965853D2AC384250088976E /* DDGButton.swift */; };
+		C97DC16F2B2A025200B98C35 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97DC16E2B2A025200B98C35 /* HapticManager.swift */; };
 		C99098CF2ADF226B00C62E56 /* LocationMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99098CE2ADF226B00C62E56 /* LocationMapViewModel.swift */; };
 		C99789C52AE5665F001780D6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99789C42AE5665F001780D6 /* LocationManager.swift */; };
 		C9A1DA712AFFC36500BCCF2B /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A1DA702AFFC36500BCCF2B /* UIImage+Ext.swift */; };
@@ -75,6 +76,7 @@
 		C96585392AC382F60088976E /* CustomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModifiers.swift; sourceTree = "<group>"; };
 		C965853B2AC383330088976E /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		C965853D2AC384250088976E /* DDGButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDGButton.swift; sourceTree = "<group>"; };
+		C97DC16E2B2A025200B98C35 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		C99098CE2ADF226B00C62E56 /* LocationMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapViewModel.swift; sourceTree = "<group>"; };
 		C99789C42AE5665F001780D6 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		C9A1DA702AFFC36500BCCF2B /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 			children = (
 				C96566EB2ADB058200613D90 /* CloudKitManager.swift */,
 				C99789C42AE5665F001780D6 /* LocationManager.swift */,
+				C97DC16E2B2A025200B98C35 /* HapticManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				C965853A2AC382F60088976E /* CustomModifiers.swift in Sources */,
 				C93FCC4D2ABF346700D1AF38 /* LocationMapView.swift in Sources */,
 				C9F099092B027992008F246F /* LocationDetailViewModel.swift in Sources */,
+				C97DC16F2B2A025200B98C35 /* HapticManager.swift in Sources */,
 				C99098CF2ADF226B00C62E56 /* LocationMapViewModel.swift in Sources */,
 				C93FCC4F2ABF348400D1AF38 /* LocationListView.swift in Sources */,
 				C9A1DA742AFFF8A500BCCF2B /* ProfileViewModel.swift in Sources */,

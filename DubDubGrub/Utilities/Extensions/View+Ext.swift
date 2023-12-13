@@ -13,11 +13,6 @@ extension View {
         self.modifier(ProfileNameText())
     }
     
-    func playHaptic() {
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-    }
-    
     func embedInScrollView() -> some View {
         GeometryReader { geometry in
             ScrollView {
