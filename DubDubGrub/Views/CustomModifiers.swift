@@ -13,5 +13,6 @@ struct ProfileNameText: ViewModifier {
             .font(.system(size: 32, weight: .bold))
             .lineLimit(1)
             .minimumScaleFactor(0.75)
+            .disableAutocorrection(true)
     }
 }

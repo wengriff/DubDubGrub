@@ -25,7 +25,6 @@
 		C9569A672B13A25E0051F906 /* LocationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9569A662B13A25E0051F906 /* LocationListViewModel.swift */; };
 		C96566EC2ADB058200613D90 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96566EB2ADB058200613D90 /* CloudKitManager.swift */; };
 		C96566EE2ADB064800613D90 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96566ED2ADB064800613D90 /* Constants.swift */; };
-		C96566F02ADB093400613D90 /* CKRecord+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96566EF2ADB093400613D90 /* CKRecord+Ext.swift */; };
 		C96585362AC37F520088976E /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96585352AC37F520088976E /* LocationCell.swift */; };
 		C96585382AC37FA20088976E /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96585372AC37FA20088976E /* AvatarView.swift */; };
 		C965853A2AC382F60088976E /* CustomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96585392AC382F60088976E /* CustomModifiers.swift */; };
@@ -70,7 +69,6 @@
 		C9569A662B13A25E0051F906 /* LocationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListViewModel.swift; sourceTree = "<group>"; };
 		C96566EB2ADB058200613D90 /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		C96566ED2ADB064800613D90 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		C96566EF2ADB093400613D90 /* CKRecord+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKRecord+Ext.swift"; sourceTree = "<group>"; };
 		C96585352AC37F520088976E /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		C96585372AC37FA20088976E /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		C96585392AC382F60088976E /* CustomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModifiers.swift; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 			children = (
 				C93FCC482ABF33A300D1AF38 /* Color+Ext.swift */,
 				C965853B2AC383330088976E /* View+Ext.swift */,
-				C96566EF2ADB093400613D90 /* CKRecord+Ext.swift */,
 				C9CD07DB2AEC25B60054639B /* CKAsset+Ext.swift */,
 				C9A1DA702AFFC36500BCCF2B /* UIImage+Ext.swift */,
 			);
@@ -399,7 +396,6 @@
 				C965853C2AC383330088976E /* View+Ext.swift in Sources */,
 				C9C37B702B0423D70045522C /* ProfileModalView.swift in Sources */,
 				C9FED4412B1D9D3200814D4B /* DDGAnnotation.swift in Sources */,
-				C96566F02ADB093400613D90 /* CKRecord+Ext.swift in Sources */,
 				C9569A672B13A25E0051F906 /* LocationListViewModel.swift in Sources */,
 				C99789C52AE5665F001780D6 /* LocationManager.swift in Sources */,
 				C9CD07DC2AEC25B60054639B /* CKAsset+Ext.swift in Sources */,
