@@ -21,6 +21,7 @@ struct LocationDetailView: View {
                 ActionButtonHStack(viewModel: viewModel)
                 GridHeaderTextView(number: viewModel.checkedInProfiles.count)
                 AvatarGridView(viewModel: viewModel)
+                Spacer()
             }
             .accessibilityHidden(viewModel.isShowingProfileModal)
             
