@@ -54,32 +54,49 @@ final class CloudKitManager {
         if let profileReference = record["userProfile"] as? CKRecord.Reference {
             profileRecordID = profileReference.recordID
         }
-    }    
+    }
     
-    func getLocations(completed: @escaping (Result<[DDGLocation], Error>) -> Void)  {
+    // Old Way
+//    func getLocations(completed: @escaping (Result<[DDGLocation], Error>) -> Void)  {
+//        let sortDescriptor = NSSortDescriptor(key: DDGLocation.kName, ascending: true)
+//        let query = CKQuery(recordType: RecordType.location, predicate: NSPredicate(value: true))
+//        query.sortDescriptors = [sortDescriptor]
+//        
+//        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
+//            guard let records = records, error == nil else {
+//                completed(.failure(error!))
+//                return
+//            }
+//            
+//            //            var locations: [DDGLocation] = []
+//            //
+//            //            for record in records {
+//            //                let location = DDGLocation(record: record)
+//            //                locations.append(location)
+//            //            }
+//            
+////            let locations = records.map { $0.convertToDDGLocation() } // instead of what's up there
+//            let locations = records.map(DDGLocation.init) // instead of what's up there
+//            
+//            completed(.success(locations))
+//        }
+//    }
+    
+    func getLocations() async throws -> [DDGLocation]  {
         let sortDescriptor = NSSortDescriptor(key: DDGLocation.kName, ascending: true)
         let query = CKQuery(recordType: RecordType.location, predicate: NSPredicate(value: true))
         query.sortDescriptors = [sortDescriptor]
         
-        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
-            guard let records = records, error == nil else {
-                completed(.failure(error!))
-                return
-            }
-            
-            //            var locations: [DDGLocation] = []
-            //
-            //            for record in records {
-            //                let location = DDGLocation(record: record)
-            //                locations.append(location)
-            //            }
-            
-//            let locations = records.map { $0.convertToDDGLocation() } // instead of what's up there
-            let locations = records.map(DDGLocation.init) // instead of what's up there
-            
-            completed(.success(locations))
-        }
+        let (matchResults, _) = try await container.publicCloudDatabase.records(matching: query)
+        
+        let records = matchResults.compactMap { _, result in try? result.get() }
+        
+        let locations = records.map(DDGLocation.init)
+        
+        return locations
     }
+
+    
     
     
     func batchSave(records: [CKRecord], completed: @escaping (Result<[CKRecord], Error>) -> Void) {
@@ -98,20 +115,18 @@ final class CloudKitManager {
     }
     
     
-    func getCheckedInProfiles(for locationID: CKRecord.ID, completed: @escaping (Result<[DDGProfile], Error>) -> Void) {
+    func getCheckedInProfiles(for locationID: CKRecord.ID) async throws -> [DDGProfile] {
         let reference = CKRecord.Reference(recordID: locationID, action: .none)
         let predicate = NSPredicate(format: "isCheckedIn == %@", reference)
         let query = CKQuery(recordType: RecordType.profile, predicate: predicate)
         
-        CKContainer.default().publicCloudDatabase.perform(query, inZoneWith: nil) { records, error in
-            guard let records = records, error == nil else {
-                completed(.failure(error!))
-                return
-            }
-            
-            let profiles = records.map(DDGProfile.init)
-            completed(.success(profiles))
-        }
+        let (matchResults, _) = try await container.publicCloudDatabase.records(matching: query)
+        
+        let records = matchResults.compactMap { _, result in try? result.get() }
+        
+        let profiles = records.map(DDGProfile.init)
+        
+        return profiles
     }
     
     

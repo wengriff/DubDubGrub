@@ -10,6 +10,8 @@ import CloudKit
 import SwiftUI
 
 extension LocationListView {
+    
+    @MainActor
     final class LocationListViewModel: ObservableObject {
         
         @Published var checkedInProfiles: [CKRecord.ID: [DDGProfile]] = [:]

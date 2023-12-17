@@ -28,8 +28,8 @@ struct AppTabView: View {
                 Label("Profile", systemImage: "person")
             }
         }
-        .onAppear {
-            CloudKitManager.shared.getUserRecord()
+        .task {
+            try? await CloudKitManager.shared.getUserRecord()
             viewModel.checkIfHasSeenOnboard()
         }
         .sheet(isPresented: $viewModel.isShowingOnboardView) {
