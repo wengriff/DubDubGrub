@@ -15,27 +15,65 @@ struct LocationMapView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            //            Map(coordinateRegion: $viewModel.region)
-            //                .ignoresSafeArea()
-            Map(coordinateRegion: $viewModel.region, 
-                showsUserLocation: true,
-                annotationItems: locationManager.locations) { location in
-                //                MapMarker(coordinate: location.location.coordinate, tint: .brandPrimary)
-                MapAnnotation(coordinate: location.location.coordinate, 
-                              anchorPoint: CGPoint(x: 0.5, y: 0.75)) {
-                    DDGAnnotation(location: location,
-                                  number: viewModel.checkedInProfiles[location.id, default: 0])
-                    .onTapGesture {
-                        locationManager.selectedLocation = location
-                        viewModel.isShowingDetailView = true
+            
+            Map(initialPosition: viewModel.cameraPosition) {
+                ForEach(locationManager.locations) {location in
+                    Annotation(location.name, coordinate: location.location.coordinate) {
+                        DDGAnnotation(location: location, 
+                                      number: viewModel.checkedInProfiles[location.id, default: 0])
+                            .onTapGesture {
+                                locationManager.selectedLocation = location
+                                viewModel.isShowingDetailView = true
+                            }
+                            .contextMenu {
+                                Button("Look around", systemImage: "eyes") {
+                                    viewModel.getLookAroundScene(for: location)
+                                }
+                                
+                                Button("Get directions", systemImage: "arrow.triangle.turn.up.right.circle") {
+                                    viewModel.getDirections(to: location)
+                                }
+                            }
                     }
+                    .annotationTitles(.hidden)
+                }
+                UserAnnotation()
+                
+                if let route = viewModel.route {
+                    MapPolyline(route)
+                        .stroke(.brandPrimary, lineWidth: 8)
                 }
             }
-            .tint(.grubRed)
-            .ignoresSafeArea()
+            .lookAroundViewer(isPresented: $viewModel.isShowingLookAround, initialScene: viewModel.lookAroundScene)
+            .mapStyle(.standard)
+            .mapControls {
+                MapCompass()
+                MapUserLocationButton()
+                MapPitchToggle()
+                MapScaleView()
+            }
+            
+            //            Map(coordinateRegion: $viewModel.region)
+            //                .ignoresSafeArea()
+            //            Map(coordinateRegion: $viewModel.region,
+            //                showsUserLocation: true,
+            //                annotationItems: locationManager.locations) { location in
+            //                //                MapMarker(coordinate: location.location.coordinate, tint: .brandPrimary)
+            //                MapAnnotation(coordinate: location.location.coordinate,
+            //                              anchorPoint: CGPoint(x: 0.5, y: 0.75)) {
+            //                    DDGAnnotation(location: location,
+            //                                  number: viewModel.checkedInProfiles[location.id, default: 0])
+            //                    .onTapGesture {
+            //                        locationManager.selectedLocation = location
+            //                        viewModel.isShowingDetailView = true
+            //                    }
+            //                }
+            //            }
+            //            .tint(.grubRed)
+            //            .ignoresSafeArea()
             
             LogoView(frameWidth: 125).shadow(radius: 10)
-
+            
         }
         .sheet(isPresented: $viewModel.isShowingDetailView) {
             NavigationStack {
