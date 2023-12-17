@@ -68,16 +68,12 @@ extension LocationMapView {
         }
         
         func getCheckedInCount() {
-            CloudKitManager.shared.getCheckedInProfilesCount { result in
-                DispatchQueue.main.async {
-                    switch result {
-                        
-                    case .success(let checkedInProfiles):
-                        self.checkedInProfiles = checkedInProfiles
-                    case .failure(_):
-                        self.alertItem = AlertContext.checkedInCount
-                        break
-                    }
+            
+            Task {
+                do {
+                    checkedInProfiles = try await CloudKitManager.shared.getCheckedInProfilesCount()
+                } catch {
+                    alertItem = AlertContext.checkedInCount
                 }
             }
         }

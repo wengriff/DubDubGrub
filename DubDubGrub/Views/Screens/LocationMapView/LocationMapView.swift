@@ -35,7 +35,6 @@ struct LocationMapView: View {
             .tint(.grubRed)
             .ignoresSafeArea()
             
-            
             LogoView(frameWidth: 125).shadow(radius: 10)
 
         }

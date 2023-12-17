@@ -95,25 +95,6 @@ final class CloudKitManager {
         
         return locations
     }
-
-    
-    
-    
-    func batchSave(records: [CKRecord], completed: @escaping (Result<[CKRecord], Error>) -> Void) {
-        
-        let operation = CKModifyRecordsOperation(recordsToSave: records)
-        
-        operation.modifyRecordsCompletionBlock = { savedRecords, _, error in
-            guard let savedRecords = savedRecords, error == nil else {
-                print(error!.localizedDescription)
-                completed(.failure(error!))
-                return
-            }
-            completed(.success(savedRecords))
-        }
-        CKContainer.default().publicCloudDatabase.add(operation)
-    }
-    
     
     func getCheckedInProfiles(for locationID: CKRecord.ID) async throws -> [DDGProfile] {
         let reference = CKRecord.Reference(recordID: locationID, action: .none)
@@ -171,6 +152,7 @@ final class CloudKitManager {
             guard let locationReference = record[DDGProfile.kIsCheckedIn] as? CKRecord.Reference else { continue }
             checkedInProfiles[locationReference.recordID, default: []].append(profile)
         }
+        
         guard let cursor = cursor else { return checkedInProfiles }
         
         do {
@@ -181,63 +163,45 @@ final class CloudKitManager {
     }
     
     
-    func getCheckedInProfilesCount(completed: @escaping (Result<[CKRecord.ID: Int], Error>) -> Void) {
+    func getCheckedInProfilesCount() async throws -> [CKRecord.ID: Int] {
         let predicate = NSPredicate(format: "isCheckedInNilCheck == 1")
         let query = CKQuery(recordType: RecordType.profile, predicate: predicate)
-        let operation = CKQueryOperation(query: query)
-        operation.desiredKeys = [DDGProfile.kIsCheckedIn]
+        _ = CKQueryOperation(query: query)
         
-        var checkedInProfilesCount: [CKRecord.ID: Int] = [:]
+        var checkedInProfiles: [CKRecord.ID: Int] = [:]
         
-        operation.recordFetchedBlock = { record in
+        let (matchResults, _) = try await container.publicCloudDatabase.records(matching: query, desiredKeys: [DDGProfile.kIsCheckedIn])
+        
+        let records = matchResults.compactMap { _, result in try? result.get() }
+        
+        for record in records {
             // Build dictionary
-            guard let locationReference = record[DDGProfile.kIsCheckedIn] as? CKRecord.Reference else { return }
+            _ = DDGProfile(record: record)
+            guard let locationReference = record[DDGProfile.kIsCheckedIn] as? CKRecord.Reference else { continue }
+            //            checkedInProfiles[locationReference.recordID, default: 0] += 1
             
-            checkedInProfilesCount[locationReference.recordID, default: 0] += 1
-            
-            //            if let count = checkedInProfiles[locationReference.recordID] {
-            //                checkedInProfiles[locationReference.recordID] = count + 1
-            //            } else {
-            //                checkedInProfiles[locationReference.recordID] = 1
-            //            }
+            if let count = checkedInProfiles[locationReference.recordID] {
+                checkedInProfiles[locationReference.recordID] = count + 1
+            } else {
+                checkedInProfiles[locationReference.recordID] = 1
+            }
         }
         
-        operation.queryCompletionBlock = { cursor, error in
-            guard error == nil else {
-                completed(.failure(error!))
-                return
-            }
-            
-            // Handle cursor
-            
-            completed(.success(checkedInProfilesCount))
-        }
-        CKContainer.default().publicCloudDatabase.add(operation)
+        return checkedInProfiles
+    }
+    
+    func batchSave(records: [CKRecord]) async throws -> [CKRecord] {
+        let (savedResults, _) = try await container.publicCloudDatabase.modifyRecords(saving: records, deleting: [])
+        return savedResults.compactMap { _, result in try? result.get() }
     }
     
     
-    func save(record: CKRecord, completed: @escaping (Result<CKRecord, Error>) -> Void) {
-        
-        CKContainer.default().publicCloudDatabase.save(record) { record, error in
-            guard let record = record, error == nil else {
-                completed(.failure(error!))
-                return
-            }
-            
-            completed(.success(record))
-        }
+    func save(record: CKRecord) async throws -> CKRecord {
+        return try await container.publicCloudDatabase.save(record)
     }
     
     
-    func fetchRecord(with id: CKRecord.ID, completed: @escaping (Result<CKRecord, Error>) -> Void) {
-        
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: id) { record, error in
-            guard let record = record, error == nil else {
-                completed(.failure(error!))
-                return
-            }
-            
-            completed(.success(record))
-        }
+    func fetchRecord(with id: CKRecord.ID) async throws -> CKRecord {
+        return try await container.publicCloudDatabase.record(for: id)
     }
 }
