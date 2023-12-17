@@ -11,7 +11,7 @@ struct LocationListView: View {
     
     @EnvironmentObject private var locationManager: LocationManager
     
-    @StateObject private var viewModel = LocationListViewModel()
+    @State private var viewModel = LocationListViewModel()
     
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
