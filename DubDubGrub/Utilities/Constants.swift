@@ -13,9 +13,9 @@ enum RecordType {
 }
 
 enum PlaceholderImage {
-    static let avatar = UIImage(named: "default-avatar")!
-    static let square = UIImage(named: "default-square-asset")!
-    static let banner = UIImage(named: "default-banner-asset")!
+    static let avatar = UIImage(resource: .defaultAvatar)
+    static let square = UIImage(resource: .defaultSquareAsset)
+    static let banner = UIImage(resource: .defaultBannerAsset)
 }
 
 enum ImageDimension {

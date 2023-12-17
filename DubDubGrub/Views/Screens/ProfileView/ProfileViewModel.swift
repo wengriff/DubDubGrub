@@ -171,22 +171,22 @@ extension ProfileView {
                 return
             }
             
-            guard let profileRecord = existingProfileRecord else {
+            guard let existingProfileRecord else {
                 alertItem = AlertContext.unableToGetProfile
                 return
             }
             
-            profileRecord[DDGProfile.kFirstName]    = firstName
-            profileRecord[DDGProfile.kLastName]     = lastName
-            profileRecord[DDGProfile.kCompanyName]  = companyName
-            profileRecord[DDGProfile.kBio]          = bio
-            profileRecord[DDGProfile.kAvatar]       = avatar.convertToCKAsset()
+            existingProfileRecord[DDGProfile.kFirstName]    = firstName
+            existingProfileRecord[DDGProfile.kLastName]     = lastName
+            existingProfileRecord[DDGProfile.kCompanyName]  = companyName
+            existingProfileRecord[DDGProfile.kBio]          = bio
+            existingProfileRecord[DDGProfile.kAvatar]       = avatar.convertToCKAsset()
             
             showLoadingView()
             
             Task {
                 do {
-                    let _ = try await CloudKitManager.shared.save(record: profileRecord)
+                    let _ = try await CloudKitManager.shared.save(record: existingProfileRecord)
                     hideLoadingView()
                     alertItem = AlertContext.updateProfileSuccess
                 } catch {

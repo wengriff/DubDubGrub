@@ -11,7 +11,6 @@ import CloudKit
 
 extension LocationMapView {
     
-    @MainActor
     final class LocationMapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         
@@ -44,6 +43,7 @@ extension LocationMapView {
             print("Did fail with error")
         }
         
+        @MainActor
         func getLocations(for locationManager: LocationManager) {
             
             Task {
@@ -67,6 +67,7 @@ extension LocationMapView {
             //            }
         }
         
+        @MainActor
         func getCheckedInCount() {
             
             Task {
@@ -82,6 +83,7 @@ extension LocationMapView {
             isShowingDetailView.toggle()
         }
         
+        @MainActor
         @ViewBuilder func createLocationDetailView(for location: DDGLocation, in dynamicTypeSize: DynamicTypeSize) -> some View {
             if dynamicTypeSize >= .accessibility3 {
                 LocationDetailView(viewModel: LocationDetailViewModel(location: location)).embedInScrollView()

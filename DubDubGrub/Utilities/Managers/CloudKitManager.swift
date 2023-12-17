@@ -128,7 +128,7 @@ final class CloudKitManager {
             checkedInProfiles[locationReference.recordID, default: []].append(profile)
         }
         
-        guard let cursor = cursor else { return checkedInProfiles }
+        guard let cursor else { return checkedInProfiles }
         
         do {
             return try await CloudKitManager.shared.continueWithCheckedInProfilesDict(cursor: cursor, dictionary: checkedInProfiles)
@@ -153,7 +153,7 @@ final class CloudKitManager {
             checkedInProfiles[locationReference.recordID, default: []].append(profile)
         }
         
-        guard let cursor = cursor else { return checkedInProfiles }
+        guard let cursor else { return checkedInProfiles }
         
         do {
             return try await CloudKitManager.shared.continueWithCheckedInProfilesDict(cursor: cursor, dictionary: checkedInProfiles)

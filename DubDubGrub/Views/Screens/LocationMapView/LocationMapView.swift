@@ -39,7 +39,7 @@ struct LocationMapView: View {
 
         }
         .sheet(isPresented: $viewModel.isShowingDetailView) {
-            NavigationView {
+            NavigationStack {
                 viewModel.createLocationDetailView(for: locationManager.selectedLocation!, in: dynamicTypeSize)
                     .toolbar {
                         Button("Dismiss", action: {

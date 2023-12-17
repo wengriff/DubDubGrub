@@ -16,10 +16,10 @@ struct LocationListView: View {
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(locationManager.locations) { location in
-                    NavigationLink(destination: viewModel.createLocationDetailView(for: location, in: dynamicTypeSize)) {
+                    NavigationLink(value: location) {
                         LocationCell(location: location,
                                      profiles: viewModel.checkedInProfiles[location.id, default: []])
                         .accessibilityElement(children: .ignore)
@@ -28,6 +28,9 @@ struct LocationListView: View {
                 }
             }
             .navigationTitle("Grub Spots")
+            .navigationDestination(for: DDGLocation.self, destination: { location in
+                viewModel.createLocationDetailView(for: location, in: dynamicTypeSize)
+            })
             .listStyle(.plain)
             .task { await viewModel.getCheckedInProfilesDictionary() }
             .refreshable { await viewModel.getCheckedInProfilesDictionary() }

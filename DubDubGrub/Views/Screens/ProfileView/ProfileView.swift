@@ -74,8 +74,13 @@ struct ProfileView: View {
                         }
                     }
                     
-                    BioTextEditor(text: $viewModel.bio)
+                    TextField("Enter Your Bio", text: $viewModel.bio, axis: .vertical)
+                        .textFieldStyle(.roundedBorder)
+                        .lineLimit(3...7)
                         .focused($focusedTextField, equals: .bio)
+                    
+//                    BioTextEditor(text: $viewModel.bio)
+//                        .focused($focusedTextField, equals: .bio)
                     
                 }
                 .padding(.horizontal, 20)
@@ -160,7 +165,7 @@ fileprivate struct CharactersRemainView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         ProfileView()
     }
 }
@@ -180,17 +185,17 @@ struct CheckOutButton: View {
     }
 }
 
-struct BioTextEditor: View {
-    
-    var text: Binding<String>
-    
-    var body: some View {
-        TextEditor(text: text)
-            .frame(height: 100)
-            .overlay {
-                RoundedRectangle(cornerRadius: 8).stroke(Color.secondary, lineWidth: 1)
-            }
-        //            .accessibilityLabel(Text("Bio, \(viewModel.bio)"))
-            .accessibilityHint(Text("This textfield is for your bio and has a 100 characters maximum."))
-    }
-}
+//struct BioTextEditor: View {
+//    
+//    var text: Binding<String>
+//    
+//    var body: some View {
+//        TextEditor(text: text)
+//            .frame(height: 100)
+//            .overlay {
+//                RoundedRectangle(cornerRadius: 8).stroke(Color.secondary, lineWidth: 1)
+//            }
+//        //            .accessibilityLabel(Text("Bio, \(viewModel.bio)"))
+//            .accessibilityHint(Text("This textfield is for your bio and has a 100 characters maximum."))
+//    }
+//}
