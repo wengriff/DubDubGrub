@@ -31,7 +31,7 @@ struct LocationDetailView: View {
                                  profile: viewModel.selectedProfile!)
             }
         }
-        .onAppear {
+        .task {
             viewModel.getCheckedInProfiles()
             viewModel.getCheckedInStatus()
         }
