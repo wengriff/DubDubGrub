@@ -180,19 +180,6 @@ fileprivate struct GridHeaderTextView: View {
     }
 }
 
-
-fileprivate struct GridEmptyStateTextView: View {
-    
-    var body: some View {
-        Text("Nobody's Here 😔")
-            .bold()
-            .font(.title2)
-            .foregroundColor(.secondary)
-            .padding(.top, 30)
-    }
-}
-
-
 fileprivate struct AvatarGridView: View {
     
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
@@ -201,7 +188,7 @@ fileprivate struct AvatarGridView: View {
     var body: some View {
         ZStack {
             if viewModel.checkedInProfiles.isEmpty {
-                GridEmptyStateTextView()
+                ContentUnavailableView("Nobody's Here", systemImage: "person.slash" , description: Text("Nobody has checked in yet."))
             } else {
                 ScrollView {
                     LazyVGrid(columns: viewModel.determineColumns(for: dynamicTypeSize), content: {
