@@ -10,7 +10,7 @@ import SwiftUI
 struct LocationDetailView: View {
     
     @ObservedObject var viewModel: LocationDetailViewModel
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
     var body: some View {
         ZStack {
@@ -40,8 +40,6 @@ struct LocationDetailView: View {
                 ProfileSheetView(profile: viewModel.selectedProfile!)
                     .toolbar { Button("Dismiss", action: { viewModel.isShowingProfileSheet = false }) }
             }
-            .accentColor(.brandPrimary)
-            
         }
         .alert(item: $viewModel.alertItem, content: { $0.alert })
         .navigationTitle(viewModel.location.name)
@@ -197,7 +195,7 @@ fileprivate struct GridEmptyStateTextView: View {
 
 fileprivate struct AvatarGridView: View {
     
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @ObservedObject var viewModel: LocationDetailViewModel
     
     var body: some View {
@@ -206,10 +204,12 @@ fileprivate struct AvatarGridView: View {
                 GridEmptyStateTextView()
             } else {
                 ScrollView {
-                    LazyVGrid(columns: viewModel.determineColumns(for: sizeCategory), content: {
+                    LazyVGrid(columns: viewModel.determineColumns(for: dynamicTypeSize), content: {
                         ForEach(viewModel.checkedInProfiles) { profile in
                             FirstNameAvatarView(profile: profile)
-                                .onTapGesture { viewModel.show(profile, in: sizeCategory) }
+                                .onTapGesture {
+                                    withAnimation { viewModel.show(profile, in: dynamicTypeSize) }
+                                }
                         }
                     })
                 }
@@ -223,12 +223,12 @@ fileprivate struct AvatarGridView: View {
 
 fileprivate struct FirstNameAvatarView: View {
     
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     var profile: DDGProfile
     
     var body: some View {
         VStack {
-            AvatarView(size:  sizeCategory >= .accessibilityMedium ? 100 : 64, image: profile.avatarImage)
+            AvatarView(size:  dynamicTypeSize >= .accessibility3 ? 100 : 64, image: profile.avatarImage)
             
             Text(profile.firstName)
                 .bold()
